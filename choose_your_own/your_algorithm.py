@@ -24,17 +24,47 @@ plt.scatter(grade_slow, bumpy_slow, color = "r", label="slow")
 plt.legend()
 plt.xlabel("bumpiness")
 plt.ylabel("grade")
-plt.show()
+# plt.show()
 ################################################################################
 
 
-### your code here!  name your classifier object clf if you want the 
+### your code here!  name your classifier object clf if you want the
 ### visualization code (prettyPicture) to show you the decision boundary
 
+from time import time
+from sklearn.metrics import accuracy_score
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import AdaBoostClassifier, RandomForestClassifier
 
+#### K Nearest Neighbors
+clf = KNeighborsClassifier(n_neighbors=15, weights='distance')
+t0 = time()
+clf.fit(features_train, labels_train)
+print "training time:", round(time()-t0, 3), "s"
+t1 = time()
+prd = clf.predict(features_test)
+print "training time:", round(time()-t1, 3), "s"
+print(accuracy_score(labels_test, prd))
 
+#### Adaboost
+# clf = AdaBoostClassifier(algorithm='SAMME')
+# t0 = time()
+# clf.fit(features_train, labels_train)
+# print "training time:", round(time()-t0, 3), "s"
+# t1 = time()
+# prd = clf.predict(features_test)
+# print "training time:", round(time()-t1, 3), "s"
+# print(accuracy_score(labels_test, prd))
 
-
+#### Random Forest
+# clf = RandomForestClassifier()
+# t0 = time()
+# clf.fit(features_train, labels_train)
+# print "training time:", round(time()-t0, 3), "s"
+# t1 = time()
+# prd = clf.predict(features_test)
+# print "training time:", round(time()-t1, 3), "s"
+# print(accuracy_score(labels_test, prd))
 
 
 
