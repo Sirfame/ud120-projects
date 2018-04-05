@@ -21,7 +21,10 @@ dictionary = pickle.load( open("../final_project/final_project_dataset_modified.
 
 ### list the features you want to look at--first item in the 
 ### list will be the "target" feature
+
+# comment out one of the two below lines, one to test against salary, one to test against long term incentive features.
 features_list = ["bonus", "salary"]
+#features_list = ["bonus", "long_term_incentive"]
 data = featureFormat( dictionary, features_list, remove_any_zeroes=True)
 target, features = targetFeatureSplit( data )
 
@@ -39,11 +42,15 @@ test_color = "r"
 ### "r" to differentiate training points from test points.
 from sklearn import linear_model
 reg = linear_model.LinearRegression()
+
+# regression without outliers
 reg.fit(feature_train, target_train)
-print('score: \n', reg.coef_)
-print('Coefficients: \n', reg.intercept_)
-
-
+print('Slope with outliers: \n', reg.coef_)
+print('Intercept with outliers: \n', reg.intercept_)
+# scoring the regression using the same data as training (over estimate since we are not properly scoring)
+print('Score with outliers: \n', reg.score(feature_train, target_train))
+# scoring the regression using the test data, which is different than the training data (true score)
+print('Score with outliers: \n', reg.score(feature_test, target_test))
 
 
 
@@ -65,9 +72,18 @@ plt.scatter(feature_test[0], target_test[0], color=train_color, label="train")
 ### draw the regression line, once it's coded
 try:
     plt.plot( feature_test, reg.predict(feature_test) )
-    print(reg.score)
+    
 except NameError:
     pass
+# regression without outliers
+reg.fit(feature_test, target_test)
+plt.plot(feature_train, reg.predict(feature_train), color="g") 
+print('Slope without outlier: \n', reg.coef_)
+print('Intercept without outlier: \n', reg.intercept_)
+# scoring the regression using the same data as training (over estimate since we are not properly scoring)
+print('Score without outlier: \n', reg.score(feature_train, target_train))
+# scoring the regression using the test data, which is different than the training data (true score)
+print('Score without outlier: \n', reg.score(feature_test, target_test))
 plt.xlabel(features_list[1])
 plt.ylabel(features_list[0])
 plt.legend()
