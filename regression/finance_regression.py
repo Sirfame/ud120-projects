@@ -25,6 +25,7 @@ dictionary = pickle.load( open("../final_project/final_project_dataset_modified.
 # comment out one of the two below lines, one to test against salary, one to test against long term incentive features.
 features_list = ["bonus", "salary"]
 #features_list = ["bonus", "long_term_incentive"]
+
 data = featureFormat( dictionary, features_list, remove_any_zeroes=True)
 target, features = targetFeatureSplit( data )
 
