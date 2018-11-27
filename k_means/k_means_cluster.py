@@ -11,6 +11,7 @@ import pickle
 import numpy
 import matplotlib.pyplot as plt
 import sys
+from sklearn.cluster import KMeans
 sys.path.append("../tools/")
 from feature_format import featureFormat, targetFeatureSplit
 
@@ -44,14 +45,27 @@ data_dict = pickle.load( open("../final_project/final_project_dataset.pkl", "r")
 data_dict.pop("TOTAL", 0)
 
 
+
 ### the input features we want to use 
 ### can be any key in the person-level dictionary (salary, director_fees, etc.) 
 feature_1 = "salary"
 feature_2 = "exercised_stock_options"
+feature_3 = "total_payments"
 poi  = "poi"
 features_list = [poi, feature_1, feature_2]
 data = featureFormat(data_dict, features_list )
+
+# min = sys.maxint
+# max = -sys.maxint - 1
+# for item in data:
+#     print(item[1])
+#     if(max < item[1]):
+#         max = item[1]
+#     if(min > item[1] and item[1] != 0):
+#         min = item[1]
+# print(min, max)
 poi, finance_features = targetFeatureSplit( data )
+
 
 
 ### in the "clustering with 3 features" part of the mini-project,
@@ -64,8 +78,7 @@ plt.show()
 
 ### cluster here; create predictions of the cluster labels
 ### for the data and store them to a list called pred
-
-
+pred = KMeans(n_clusters=2).fit(data).labels_
 
 
 ### rename the "name" parameter when you change the number of features
